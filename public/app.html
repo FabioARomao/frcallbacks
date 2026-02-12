@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Sistema autenticado</h1>
+<button onclick="logout()">Sair</button>
+
+<script>
+const token = localStorage.getItem('token')
+
+if (!token) {
+  window.location = '/login.html'
+}
+
+function logout(){
+  localStorage.removeItem('token')
+  window.location = '/login.html'
+}
+</script>
+
+</body>
+</html>
