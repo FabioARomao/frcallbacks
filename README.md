@@ -44,3 +44,10 @@ npm install prisma@5 @prisma/client@5
 npm install --save-dev prisma dotenv
 npx prisma generate
 npx prisma migrate dev
+
+Acessar o servidor backend de forma local
+/frcallbacks/backend$ node src/server.js
+
+Acessar o servidor frontend de forma local
+npm install
+npm run dev
