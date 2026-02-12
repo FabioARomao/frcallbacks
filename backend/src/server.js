@@ -6,10 +6,10 @@ const app = express()
 
 app.use(cors())
 app.use(express.json())
-app.use(express.static('public'))
 
-app.use('/auth', require('../routes/auth'))
+app.use('/auth', require('./routes/auth'))
+app.use('/users', require('./routes/users'))
 
-app.listen(3000, () => {
-  console.log('Servidor rodando http://localhost:3000')
-})
+app.listen(3000, () =>
+  console.log('Backend http://localhost:3000')
+)
