@@ -9,7 +9,9 @@ app.use(express.json())
 
 app.use('/auth', require('./routes/auth'))
 app.use('/users', require('./routes/users'))
+app.use('/index', require('./routes/index'))
 
 app.listen(3000, () =>
-  console.log('Backend http://localhost:3000')
+  console.log('Backend http://localhost:3000'),
+  console.log("Aplicacao rodando com sucesso!")
 )
