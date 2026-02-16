@@ -1,0 +1,20 @@
+{
+  "name": "curso",
+  "version": "1.0.0",
+  "description": "servidor emulador de posts",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "node index.js",
+  "scripts": {
+    "get": "node buscaPosts.js",
+    "post": "node criaPosts.js",
+    "patchCurtir": "node curtirPost.js",
+    "patchDescurtir": "node descurtirPost.js",
+    "deletePost": "node deletePost.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "axios": "^1.13.5"
+  }
+}
