@@ -3,7 +3,7 @@ import axios from "axios";
 const main = async () => {
     const baseURL = "http://localhost:3000"
     const api = axios.create({ baseURL })
-    const idPost = 1
+    const idPost = 4
 
     const post = await api.get(`posts/${idPost}`)
 

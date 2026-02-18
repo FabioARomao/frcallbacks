@@ -1,14 +1,14 @@
 version: '3.8'
 
 services:
-  db:
+  frcallbacks:
     image: postgres:15-alpine # Versão estável e leve
-    container_name: postgres
+    container_name: frcallbacks
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: minhasenha # Altere esta senha
-      POSTGRES_DB: postgres
+      POSTGRES_USER: frcallbacks
+      POSTGRES_PASSWORD: frcallbacks123
+      POSTGRES_DB: frcallbacks
     ports:
       - "5432:5432"
     volumes:

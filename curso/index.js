@@ -1,52 +1,75 @@
 import http from "http";
+import { pool } from "../backend/src/db";
 
-// let posts = [
-//   { id: 1, titulo: "Primeiro post", curtidas: 0 },
-//   { id: 2, titulo: "Segundo post", curtidas: 0 }
-// ];
 let posts = [];
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
+
   res.setHeader("Content-Type", "application/json");
+
+  // =====================
+  // GET POSTS
+  // =====================
 
     if (req.method === "GET" && req.url === "/posts") {
 
-    if (!posts || posts.length === 0) {
-        res.statusCode = 200;
+    const result = await pool.query("SELECT * FROM posts ORDER BY id");
+
+    if (result.rows.length === 0) {
         res.end(JSON.stringify({
-        mensagem: "Nenhum post encontrado. Use o comando criaposts para criar o primeiro.",
-        total: 0,
-        posts: []
+        mensagem: "Nenhum post encontrado"
         }));
         return;
     }
 
-    res.statusCode = 200;
-    res.end(JSON.stringify({
-        total: posts.length,
-        posts
-    }));
+    res.end(JSON.stringify(result.rows));
     return;
     }
 
 
-  if (req.method === "POST" && req.url === "/posts") {
+  // =====================
+  // CREATE POST
+  // =====================
+    if (req.method === "POST" && req.url === "/posts") {
+
     let body = "";
-    req.on("data", chunk => body += chunk);
+    req.on("data", c => body += c);
 
-    req.on("end", () => {
-      const novo = JSON.parse(body);
-      novo.id = posts.length + 1;
-      novo.curtidas = 0;
-      posts.push(novo);
+    req.on("end", async () => {
+        const data = JSON.parse(body);
 
-      res.end(JSON.stringify(novo));
+        const result = await pool.query(
+        "INSERT INTO posts (titulo) VALUES ($1) RETURNING *",
+        [data.titulo]
+        );
+
+        res.end(JSON.stringify(result.rows[0]));
     });
-    return;
-  }
 
+    return;
+    }
+
+
+  // =====================
+  // DELETE POST
+  // =====================
+    if (req.method === "DELETE" && req.url.startsWith("/posts/")) {
+
+    const id = req.url.split("/")[2];
+
+    await pool.query("DELETE FROM posts WHERE id=$1", [id]);
+
+    res.end(JSON.stringify({ ok: true }));
+    return;
+    }
+
+
+  // =====================
+  // FALLBACK
+  // =====================
   res.statusCode = 404;
   res.end(JSON.stringify({ erro: "Rota não encontrada" }));
+
 });
 
 server.listen(3000, () => {
